@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load prefixes</title>
+</head>
+<body>
+    <form name="prefixes" action="/settings/load-littleword/" method="post">
+        {% csrf_token %}
+        <input type="file" name="file"/>
+        <select name="type">
+            <option value="pr">Прийменник</option>
+            <option value="cn">Сполучник</option>
+            <option value="fr">Частка</option>
+        </select>
+        <input type="submit" name="Submit"/>
+    </form>
+    <a href="/settings/">Back</a>
+</body>
+</html>

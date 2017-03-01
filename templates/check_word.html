@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check word</title>
+</head>
+<body>
+    <form name="CheckWord" method="post">
+        {% csrf_token %}
+        <div>
+            <input name="word"/>
+        </div>
+        <div>
+            <select name="elem">
+                <option value="full">Full</option>
+                <option value="end">End</option>
+                <option value="main">Main</option>
+                <option value="pref">Prefix</option>
+            </select>
+        </div>
+        <div>
+            <input name="Submit" type="submit"/>
+        </div>
+    </form>
+    <a href="/">Back</a>
+</body>
+</html>

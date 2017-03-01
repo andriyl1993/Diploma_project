@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load load words</title>
+</head>
+<body>
+    <form name="prefixes" action="/settings/load-words/" method="post">
+        {% csrf_token %}
+        <input type="file" name="file"/>
+        <input type="submit" name="Submit"/>
+    </form>
+    <a href="/settings/">Back</a>
+</body>
+</html>
