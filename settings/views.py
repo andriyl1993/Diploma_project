@@ -42,7 +42,7 @@ def load_words(request):
         for r in res:
             NGramm.add_new(r, 3)
             NGramm.add_new(r, 2)
-            word_res = Full.check_word(r, False, False)
+            word_res = Full.check_word(r, False, False, prob_compute=False)
             full_obj = Full()
             full_obj.make_obj(
                 word_res.get('prefix'),

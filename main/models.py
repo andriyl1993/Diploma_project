@@ -7,7 +7,11 @@ from django.db import models
 pref_max_len = 5
 end_max_len = 3
 
+
 class Prefix(models.Model):
+    """
+    Клас для префікса слова
+    """
     name = models.CharField(max_length=7)
 
     def __unicode__(self):
@@ -15,6 +19,7 @@ class Prefix(models.Model):
 
     @staticmethod
     def find(string, not_use=[]):
+        """Пошук префікса у слові"""
         prefs = Prefix.objects.\
             filter(name__istartswith=string[0]).\
             exclude(name__in=not_use).\
@@ -35,6 +40,7 @@ class Prefix(models.Model):
 
     @staticmethod
     def find_all(word, not_use=[]):
+        """Пошук всіх можливих варіантів префіксів у слові"""
         prefixes = []
         while (True):
             _find_pref = Prefix.find(word, prefixes)
@@ -45,6 +51,9 @@ class Prefix(models.Model):
         return prefixes
 
 class End(models.Model):
+    """
+    Клас для закінчення слова
+    """
     name = models.CharField(max_length=7)
 
     def __unicode__(self):
@@ -52,6 +61,7 @@ class End(models.Model):
 
     @staticmethod
     def find(string, not_use=[]):
+        """Пошук закінчення у слові"""
         end = ""
         _end = string[-1]
         for i in range(3):
@@ -67,6 +77,7 @@ class End(models.Model):
 
     @staticmethod
     def find_all(word):
+        """Пошук всіх можливих закінчень у слові"""
         ends = []
         while True:
             _end = End.find(word, ends)
@@ -77,10 +88,14 @@ class End(models.Model):
         return ends
 
 class NGramm(models.Model):
+    """
+    Клас для грамів
+    """
     name = models.CharField(max_length=3)
 
     @staticmethod
     def get_grams(word, gram_len=3):
+        """Поділити слово на грами"""
         if not isinstance(word, unicode):
             word = word.decode('utf-8')
         word = word.strip().strip('﻿')
@@ -88,14 +103,28 @@ class NGramm(models.Model):
 
     @staticmethod
     def add_new(word, gram_length=3):
+        """Додати до бази даних нові грами із слова"""
         for x in NGramm.get_grams(word, gram_length):
             if not NGramm.objects.filter(name = x):
                 obj = NGramm()
                 obj.name = x
                 obj.save()
 
+    @staticmethod
+    def get_by_name(name):
+        """Знайми об'єкт грами за назвою грами"""
+        if len(name) > 3:
+            return None
+        try:
+            return NGramm.objects.get(name=name)
+        except:
+            return None
+
 
 class Main(models.Model):
+    """
+    Клас для головної частини слова
+    """
     name = models.CharField(max_length=31)
     grams = models.ManyToManyField(NGramm)
 
@@ -104,6 +133,7 @@ class Main(models.Model):
 
     @staticmethod
     def find(word):
+        """Пошук головної частини слова"""
         result = []
         prefixes = Prefix.find_all(word) + ['']
         ends = End.find_all(word) + ['']
@@ -115,7 +145,8 @@ class Main(models.Model):
         return result
 
     @staticmethod
-    def compute(word):
+    def compute(word, prob_compute=True):
+        """Головний метод, який шукає помилку у слові"""
         _gram_arr = NGramm.get_grams(word, 3)
         _gram_save = NGramm.objects.filter(name__in = _gram_arr)
         _error_grams = {}
@@ -126,13 +157,31 @@ class Main(models.Model):
                 _error_grams[i] = _gram_arr[i]
             else:
                 _true_grams[i] = _gram_arr[i]
-        return {
-            'error': _error_grams,
-            'true': _true_grams,
-        }
+        if prob_compute:
+            prob_grams = {}
+            for i in range(len(_gram_arr) - 1):
+                prob = ProbUse.objects.filter(
+                    first=NGramm.get_by_name(_gram_arr[i]),
+                    second=NGramm.get_by_name(_gram_arr[i+1])
+                )
+                if prob:
+                    prob_grams[i] = {
+                        'exist': True if _gram_arr[i] in _true_grams else False,
+                        'prob': prob[0].value,
+                    }
+            return prob_grams
+        else:
+            return {
+                'error': _error_grams,
+                'true': _true_grams,
+            }
 
 
 class LittleWord(models.Model):
+    """
+    Особливий клас для коротких слів (орієнтовно не більше 3-ох символів)
+    Будуть переважно прийменники, сполучники і частки (можливо додати і інші частини мови)
+    """
     name = models.CharField(max_length=7)
     type = models.CharField(
         choices=(
@@ -144,8 +193,15 @@ class LittleWord(models.Model):
     )
 
 
-#клас для імовірності між грамами
 class ProbUse(models.Model):
+    """
+    Клас для імовірності між грамами
+    поля:
+        - first - перша грама
+        - second - друга грама
+        - count_value - кількість зустрінутих таких пар
+        - value - імовірнісна величина (кількість входжень/на кількість всіх грам)
+    """
     first = models.ForeignKey(NGramm, related_name='first')
     second = models.ForeignKey(NGramm, related_name='second')
     count_value = models.IntegerField(default=0)
@@ -153,6 +209,7 @@ class ProbUse(models.Model):
 
     @staticmethod
     def compute(full_obj):
+        """Метод, що знаходить або створює нову пару грам із імовірностями і рахує статистику"""
         if not isinstance(full_obj, Full):
             return False
         word = full_obj.main.name
@@ -168,6 +225,10 @@ class ProbUse(models.Model):
 
 
 class Full(models.Model):
+    """
+    Клас для повного слова
+    обов'язковими є лише поля: word
+    """
     word = models.CharField(max_length = 63)
     is_error = models.BooleanField(default=False)
     prefix = models.ForeignKey(Prefix, null=True, blank=True)
@@ -175,17 +236,19 @@ class Full(models.Model):
     main = models.ForeignKey(Main)
 
     @staticmethod
-    def check_word(word, check_pref=True, check_end=True):
+    def check_word(word, check_pref=True, check_end=True, prob_compute=True):
+        """Перевірка слов на наявність помилки"""
         prefix = Prefix.find(word) if check_pref else ""
         end = End.find(word) if check_end else ""
         _word = word[len(prefix):-len(end)] if len(end) > 0 else word[len(prefix):]
         main = _word
 
-        res = Main.compute(_word)
-        res['word'], res['prefix'],res['end'], res['main'] = word, prefix, end, main
+        res = Main.compute(_word, prob_compute=prob_compute)
+        res['word'], res['prefix'], res['end'], res['main'] = word, prefix, end, main
         return res
 
     def make_obj(self, prefix_str, main_str, end_str):
+        """Метод, що створює об'єкт Full з текстових змінних частин слова"""
         self.prefix = Prefix.objects.get(name=prefix_str) if prefix_str else None
         self.end = End.objects.get(name=end_str) if end_str else None
         self.word = str(prefix_str) + str(main_str) + str(end_str)

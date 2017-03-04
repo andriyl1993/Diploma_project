@@ -19,7 +19,7 @@ def check_word(request):
         cls = code_class[request.POST.get('elem')]
         word = request.POST.get('word')
         if cls is Full:
-            res = cls.check_word(word)
+            res = cls.check_word(word, True, True, True)
             error_str = ", ".join(res.get('error').values())
             true_str = ", ".join(res.get('true').values())
             res = "Find error - " + error_str + " " if error_str else " "
