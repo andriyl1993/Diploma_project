@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Load load words</title>
-</head>
-<body>
+{% extends "_base.html" %}
+{% block title %}
+    <title>Load words</title>
+{% endblock %}
+{% block main %}
     <form name="prefixes" action="/settings/load-words/" method="post">
         {% csrf_token %}
-        <input type="file" name="file"/>
-        <input type="submit" name="Submit"/>
+        <div>
+            <input type="file" class="btn" name="file"/>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-success" name="Submit"/>
+        </div>
     </form>
-    <a href="/settings/">Back</a>
-</body>
-</html>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'settings_index' %}">Back to settings</a></div>
+{% endblock %}

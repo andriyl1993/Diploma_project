@@ -1,0 +1,44 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Show words</title>
+{% endblock %}
+{% block main %}
+    <form metod="GET" action="{% url 'show_words' %}">
+        <div>
+            <label for="part">Part</label>
+            <input name="part" type="text"/>
+        </div>
+        <div>
+            <label for="method">Start, middle or end</label>
+            <select name="method">
+                <option name="start" value="start">Start</option>
+                <option name="middle" value="middle">Middle</option>
+                <option name="end" value="end">End</option>
+            </select>
+        </div>
+        <div>
+            <label for="limit">Limit</label>
+            <input name="limit" type="number" value="100" help="Частина"/>
+        </div>
+        <div>
+            <input name="submit" class="btn btn-success" type="Submit" value="Show"/>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <th>Name</th>
+            <th>Grams</th>
+        </thead>
+        <tbody>
+            {% for word in words %}
+                <tr>
+                    <td>{{ word.word }}</td>
+                    <td>{% for gram in word.main.grams.all %}&nbsp;{{ gram.name }}&nbsp;{% endfor %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'settings_index' %}">Back to settings</a></div>
+{% endblock %}

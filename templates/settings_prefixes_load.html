@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "_base.html" %}
+{% block title %}
     <title>Load prefixes</title>
-</head>
-<body>
+{% endblock %}
+{% block main %}
     <form name="prefixes" action="/settings/load-prefixes/" method="post">
         {% csrf_token %}
-        <input type="file" name="file"/>
-        <select name="part">
-            <option value="pref">Перефікс</option>
-            <option value="main">Основа</option>
-            <option value="end">Закінчення</option>
-        </select>
-        <input type="submit" name="Submit"/>
+        <div>
+            <input class="btn" type="file" name="file"/>
+            <select name="part">
+                <option value="pref">Перефікс</option>
+                <option value="main">Основа</option>
+                <option value="end">Закінчення</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-success" name="Submit"/>
+        </div>
     </form>
-</body>
-</html>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'settings_index' %}">Back to settings</a></div>
+{% endblock %}

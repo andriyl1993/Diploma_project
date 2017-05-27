@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Load prefixes</title>
+{% endblock %}
+{% block main %}
+    <form name="prefixes" action="/settings/load-littleword/" method="post">
+        {% csrf_token %}
+        <div class="btn">
+            <input type="file" name="file"/>
+            <select name="type">
+                <option value="pr">Прийменник</option>
+                <option value="cn">Сполучник</option>
+                <option value="fr">Частка</option>
+            </select>
+        </div>
+        <div><input type="submit" class="btn btn-success" name="Submit"/></div>
+    </form>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'settings_index' %}">Back to settings</a></div>
+{% endblock %}

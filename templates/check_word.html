@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "_base.html" %}
+
+{% block title %}
     <title>Check word</title>
-</head>
-<body>
+{% endblock %}
+{% block main %}
     <form name="CheckWord" method="post">
         {% csrf_token %}
         <div>
@@ -19,9 +18,10 @@
             </select>
         </div>
         <div>
-            <input name="Submit" type="submit"/>
+            <input name="Submit" class="btn btn-success" type="submit"/>
         </div>
     </form>
-    <a href="/">Back</a>
-</body>
-</html>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'index' %}">Back to main</a></div>
+{% endblock %}

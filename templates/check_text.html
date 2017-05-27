@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Check Text</title>
+{% endblock %}
+{% block main %}
+    <form action="{% url 'check_text' %}" method="POST">
+        {% csrf_token %}
+        <div><textarea name="text" rows="10" style="width: 100%;"></textarea></div>
+        <div><input type="submit" class="btn btn-success" value="Submit"/></div>
+    </form>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'index' %}">Back to main</a></div>
+{% endblock %}

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "_base.html" %}
+{% block title %}
     <title>Title</title>
-</head>
-<body>
-    <a href="/check-word/">Check word</a>
-    <a href="/settings/">Settings</a>
-</body>
-</html>
+{% endblock %}
+{% block main %}
+    <div class="text-center"><a class="btn btn-link" href="{% url 'check_text' %}">Check Text</a></div>
+    <div class="text-center"><a class="btn btn-link" href="/check-word/">Check word</a></div>
+    <div class="text-center"><a class="btn btn-link" href="/settings/">Settings</a></div>
+{% endblock %}

@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from models import Prefix, Main, End, Full
+from models import Prefix, Main, End, Full, Errors
+from models import is_one_by_one
+import re
 
 code_class = {
     'pref': Prefix,
@@ -20,10 +22,22 @@ def check_word(request):
         word = request.POST.get('word')
         if cls is Full:
             res = cls.check_word(word)
-            error_str = ", ".join(res.get('error').values())
-            true_str = ", ".join(res.get('true').values())
-            res = "Find error - " + error_str + " " if error_str else " "
-            res += "Correct - " + true_str + " " if true_str else " "
+            result_str = "Word (correct) - " + res.get('prefix') + res.get('main') + res.get('end')
         else:
             res = cls.find(word)
-        return render(request, 'result.html', {'res':True, 'result_str': res})
+        return render(request, 'result.html', {'res':True, 'result_str': result_str})
+
+def check_text(request):
+    if request.method == "GET":
+        return render(request, 'check_text.html')
+    else:
+        text = request.POST.get('text')
+        data = re.findall(ur'(?u)\w+', text)
+        result = []
+
+        for w in data:
+            res = Full.check_word(w)
+            result.append(res.get('prefix') + res.get('main') + res.get('end'))
+
+        result_str = " ".join(result)
+        return render(request, 'result.html', {'res': True, 'result_str': result_str})

@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Manually Add</title>
+{% endblock %}
+{% block main %}
+    <form method="post" action="{% url 'add-manually' %}">
+        {% csrf_token %}
+        <div>
+            <input name="word" type="text"/>
+        </div>
+        <div>
+            <select name="type">
+                <option value="pref">Prefix</option>
+                <option value="main">Main</option>
+                <option value="end">End</option>
+            </select>
+        </div>
+        <div>
+            <input name="Submit" class="btn btn-success" value="Add" type="submit"/>
+        </div>
+    </form>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'settings_index' %}">Back to settings</a></div>
+{% endblock %}

@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "_base.html" %}
+{% block title %}
     <title>Settings</title>
-</head>
-<body>
-    <div><a href="{% url 'settings_load_prefixes' %}">Load prefixes</a></div>
-    <div><a href="{% url 'settings_load_littleword' %}">Load little words</a></div>
-    <div><a href="{% url 'load_words' %}">Load words</a></div>
-    <a href="/">Back</a>
-</body>
-</html>
+{% endblock %}
+{% block main %}
+    <div class="text-center"><a class="btn btn-link" href="{% url 'settings_load_prefixes' %}">Load prefixes</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'settings_load_littleword' %}">Load little words</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'load_words' %}">Load words</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'show_words' %}">Show words</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'add-manually' %}">Add manually</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'load_all_words' %}">Load all words</a></div>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'index' %}">Back to main</a></div>
+{% endblock %}

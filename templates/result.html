@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "_base.html" %}
+{% block title %}
     <title>Result</title>
-</head>
-<body>
+{% endblock %}
+{% block main %}
     {{ res }}
     Result = {{ result_str }}
-</body>
-</html>
+{% endblock %}
+{% block back %}
+    <div><input class="btn btn-danger" onclick="history.go(-1);" value="Back"/></div>
+{% endblock %}
