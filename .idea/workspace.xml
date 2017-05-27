@@ -2,31 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c813891-45ee-4945-af0e-c030d4652a76" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base.lst.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/base2.lst.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/levenshteyn.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/_base.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/check_text.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/manually_add.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/settings_ends.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/show_words.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0007_errors.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0008_auto_20170527_1438.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diploma_project/settings.py" afterPath="$PROJECT_DIR$/Diploma_project/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ends.txt" afterPath="$PROJECT_DIR$/ends.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/models.py" afterPath="$PROJECT_DIR$/main/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/urls.py" afterPath="$PROJECT_DIR$/main/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views.py" afterPath="$PROJECT_DIR$/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings/urls.py" afterPath="$PROJECT_DIR$/settings/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings/views.py" afterPath="$PROJECT_DIR$/settings/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/check_word.html" afterPath="$PROJECT_DIR$/templates/check_word.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/result.html" afterPath="$PROJECT_DIR$/templates/result.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/settings_index.html" afterPath="$PROJECT_DIR$/templates/settings_index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/settings_littleword.html" afterPath="$PROJECT_DIR$/templates/settings_littleword.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/settings_loadwords.html" afterPath="$PROJECT_DIR$/templates/settings_loadwords.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/settings_prefixes_load.html" afterPath="$PROJECT_DIR$/templates/settings_prefixes_load.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/words.txt" afterPath="$PROJECT_DIR$/words.txt" />
     </list>
     <ignored path="Diploma_project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,8 +39,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+            <state relative-caret-position="-284">
+              <caret line="105" column="17" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
               <folding>
                 <element signature="e#25#64#0" expanded="true" />
               </folding>
@@ -73,8 +51,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="43" column="0" selection-start-line="41" selection-start-column="37" selection-end-line="43" selection-end-column="0" />
+            <state relative-caret-position="386">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -562,7 +540,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488403756984</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Finish">
+      <created>1495889412811</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1495889412811</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -577,7 +562,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2489019" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.49707174" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.49707174" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3045388" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -602,17 +587,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add models, add logic of loading data and computing errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add models, add logic of loading data and computing errors" />
+    <MESSAGE value="Finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/settings/views.py</url>
-          <line>94</line>
-          <option name="timeStamp" value="514" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -993,16 +972,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
           <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="43" column="0" selection-start-line="41" selection-start-column="37" selection-end-line="43" selection-end-column="0" />
+        <state relative-caret-position="386">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1019,8 +996,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+        <state relative-caret-position="-284">
+          <caret line="105" column="17" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
           <folding>
             <element signature="e#25#64#0" expanded="true" />
           </folding>
