@@ -9,7 +9,11 @@ pref_max_len = 5
 end_max_len = 3
 gram_lengths = [3,2]
 
+
 class Prefix(models.Model):
+    """
+    Клас для префікса слова
+    """
     name = models.CharField(max_length=7)
 
     def __unicode__(self):
@@ -17,6 +21,7 @@ class Prefix(models.Model):
 
     @staticmethod
     def find(string, not_use=[]):
+        """Пошук префікса у слові"""
         prefs = Prefix.objects.\
             filter(name__istartswith=string[0]).\
             exclude(name__in=not_use).\
@@ -40,6 +45,7 @@ class Prefix(models.Model):
 
     @staticmethod
     def find_all(word, not_use=[]):
+        """Пошук всіх можливих варіантів префіксів у слові"""
         prefixes = []
         while (True):
             _find_pref = Prefix.find(word, prefixes)
@@ -59,6 +65,9 @@ class Prefix(models.Model):
         return obj
 
 class End(models.Model):
+    """
+    Клас для закінчення слова
+    """
     name = models.CharField(max_length=7)
 
     def __unicode__(self):
@@ -66,6 +75,8 @@ class End(models.Model):
 
     @staticmethod
     def find(string, not_use=[]):
+        """Пошук закінчення у слові"""
+        end = ""
         _end = string[-1]
         for i in range(end_max_len+1):
             if i == 0:
@@ -91,6 +102,7 @@ class End(models.Model):
 
     @staticmethod
     def find_all(word):
+        """Пошук всіх можливих закінчень у слові"""
         ends = []
         while True:
             _end = End.find(word, ends)
@@ -110,10 +122,14 @@ class End(models.Model):
         return end
 
 class NGramm(models.Model):
+    """
+    Клас для грамів
+    """
     name = models.CharField(max_length=3)
 
     @staticmethod
     def get_grams(word, gram_len=3):
+        """Поділити слово на грами"""
         if not isinstance(word, unicode):
             word = word.decode('utf-8')
         word = word.strip().strip('﻿')
@@ -121,6 +137,7 @@ class NGramm(models.Model):
 
     @staticmethod
     def add_new(word, gram_length=3):
+        """Додати до бази даних нові грами із слова"""
         res = []
         for x in NGramm.get_grams(word, gram_length):
             obj = NGramm.objects.filter(name=x)
@@ -262,6 +279,7 @@ class Main(models.Model):
 
     @staticmethod
     def find(word):
+        """Пошук головної частини слова"""
         result = []
         prefixes = Prefix.find_all(word) + ['']
         ends = End.find_all(word) + ['']
@@ -302,6 +320,10 @@ class Main(models.Model):
 
 
 class LittleWord(models.Model):
+    """
+    Особливий клас для коротких слів (орієнтовно не більше 3-ох символів)
+    Будуть переважно прийменники, сполучники і частки (можливо додати і інші частини мови)
+    """
     name = models.CharField(max_length=7)
     type = models.CharField(
         choices=(
@@ -313,8 +335,15 @@ class LittleWord(models.Model):
     )
 
 
-#клас для імовірності між грамами
 class ProbUse(models.Model):
+    """
+    Клас для імовірності між грамами
+    поля:
+        - first - перша грама
+        - second - друга грама
+        - count_value - кількість зустрінутих таких пар
+        - value - імовірнісна величина (кількість входжень/на кількість всіх грам)
+    """
     first = models.ForeignKey(NGramm, related_name='first')
     second = models.ForeignKey(NGramm, related_name='second')
     count_value = models.IntegerField(default=0)
@@ -337,6 +366,10 @@ class ProbUse(models.Model):
 
 
 class Full(models.Model):
+    """
+    Клас для повного слова
+    обов'язковими є лише поля: word
+    """
     word = models.CharField(max_length = 63)
     is_error = models.BooleanField(default=False)
     prefix = models.ForeignKey(Prefix, null=True, blank=True)
