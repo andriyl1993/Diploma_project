@@ -33,7 +33,7 @@ def load_littleword(request):
         res = split_row(f)
         for r in res:
             if not LittleWord.objects.filter(name=r):
-                obj = LittleWord(name=r, type=request.POST.get('type'))
+                obj = LittleWord(name=r)
                 obj.save()
         return render(request, 'result.html', {'res': True, 'result_str': ','.join(res)})
 
@@ -72,8 +72,6 @@ def show_words(request):
         else:
             words = objs.all()
         words = words[int(start):int(start)+int(limit)]
-        for word in words:
-            print word.main.grams.all()
         return render(request, 'show_words.html', {'words': words})
 
 @staff_member_required
@@ -90,12 +88,21 @@ def add_manually(request):
 
 @staff_member_required
 def load_all_words(request):
-    f = open('base.lst.txt')
+    f = open('uk_wordlist.xml')
     for line in f:
-        word = line.split('/')[0].strip(' ')
-        end = End.find(word.decode('utf-8'))
-        main = Main()
-        end_cut = -len(end)
-        word = word.decode('utf-8')[:end_cut] if end_cut < 0 else word.decode('utf-8')
-        main.make(word=word)
+        words = line.split('\"\">')
+        if len(words) > 1:
+            word = words[1].strip(' ')
+            word = word.split('</w>')[0]
+            if len(word) > 6:
+                end = End.find(word.decode('utf-8'))
+                main = Main()
+                end_cut = -len(end)
+                word = word.decode('utf-8')[:end_cut] if end_cut < 0 else word.decode('utf-8')
+                main.make(word=word)
+            else:
+                word = LittleWord(
+                    name=word,
+                )
+                word.save()
     return redirect('/settings/show-words/')

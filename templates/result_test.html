@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Result</title>
+{% endblock %}
+{% block main %}
+    {{ res }}
+    <div>
+        <label for="results">Results</label>
+        <table>
+            <thead>
+                <th>Word</th>
+                <th>Prefixed</th>
+                <th>Main</th>
+                <th>End</th>
+            </thead>
+            <tbody>
+                {% for w in results %}
+                    <tr>
+                        <td>{{ w.word }}</td>
+                        <td>{{ w.prefix }}</td>
+                        <td>{{ w.main }}</td>
+                        <td>{{ w.end }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block back %}
+    <div><input class="btn btn-danger" onclick="history.go(-1);" value="Back"/></div>
+{% endblock %}

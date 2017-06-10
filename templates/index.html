@@ -5,5 +5,11 @@
 {% block main %}
     <div class="text-center"><a class="btn btn-link" href="{% url 'check_text' %}">Check Text</a></div>
     <div class="text-center"><a class="btn btn-link" href="/check-word/">Check word</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'check_ngram' %}">Check ngram method</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'check_levenshteyn' %}">Check levenshteyn</a></div>
     <div class="text-center"><a class="btn btn-link" href="/settings/">Settings</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'test_script' %}">Test</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'test_levensh' %}">Test Levenshteyn</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'test_ngram_without' %}">Test NGram without probs</a></div>
+    <div class="text-center"><a class="btn btn-link" href="{% url 'test_ngram_with' %}">Test NGram with probs</a></div>
 {% endblock %}

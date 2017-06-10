@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+{% block title %}
+    <title>Check Text</title>
+{% endblock %}
+{% block main %}
+    <form action="{% url 'check_ngram' %}" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="text">Text</label>
+            <textarea rows="10" style="width:100%" name="text"></textarea>
+        </div>
+        <div>
+            <label for="gram_length">Length</label>
+            <select name="gram_length">
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div>
+            <label for="use_probs">Use probs</label>
+            <input type="checkbox" name="use_probs">
+        </div>
+        <input name="submit" class="btn btn-success" type="submit" value="Check"/>
+    </form>
+{% endblock %}
+{% block back %}
+    <div><a class="btn btn-danger" href="{% url 'index' %}">Back to main</a></div>
+{% endblock %}

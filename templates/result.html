@@ -4,7 +4,10 @@
 {% endblock %}
 {% block main %}
     {{ res }}
-    Result = {{ result_str }}
+    <div>
+        <label for="results">Results</label>
+        <textarea name="results" readonly="1" rows="10" style="width: 99%">{{ result_str }}</textarea>
+    </div>
 {% endblock %}
 {% block back %}
     <div><input class="btn btn-danger" onclick="history.go(-1);" value="Back"/></div>
