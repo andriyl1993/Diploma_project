@@ -84,9 +84,11 @@ def leven(request):
 def run_levenshteyn(text):
     data = re.findall(ur'(?u)\w+', text)
     res_str = ""
+    result = {}
     for word in data:
         res = []
         ends = End.find(word)
+        result['end'] = ends
         _word = word[0:-len(ends)] if len(ends) > 0 else word
         length = len(_word)
         words = Main.objects.annotate(text_len=Length('name')).filter(text_len__in=[length - 1, length + 1]).values(
@@ -96,12 +98,14 @@ def run_levenshteyn(text):
             dist = lev_distance(_word, w['name'])
             if dist < min:
                 min = dist
-                res = [word + " - " + w['name'] + ends]
+                res = [w['name']]
             elif dist == min:
-                res.append(word + " - " + w['name'] + ends)
+                res.append(w['name'])
         res_str += "\n".join(res)
         res_str += '\n'
-    return res_str
+        result['main'] = res
+        result['word'] = text
+    return result
 
 import os
 
@@ -121,6 +125,7 @@ def open_and_get_list():
             correct.append(word)
             random_letter = random.choice(u'йцукенгшщзхїфівапрлджєячсмитьбю')
             rand_i_ch = random.randrange(0, len(word), 2)
+            # rand_i_ch = len(word)
             if rand_i_ch != len(word) - 1:
                 end = word[rand_i_ch + 1:]
             else:
@@ -139,11 +144,27 @@ def run_method(name, word):
     elif name == 'leven':
         return run_levenshteyn(word)
     elif name == 'ngram_without':
-        return u'Word - ' + word + u', error grams - ' + unicode(u', '.join(NGramm.first_step(word, 3, False)[1].values())) + u'\n'
+        true_grams, error_grams = NGramm.first_step(word, 3, False)
+        main = "True:\n"
+        main += ",".join(true_grams.values())
+        main += "\nError:\n"
+        main += ",".join(error_grams.values())
+        return {
+            'main': main,
+            'word': word,
+        }
     elif name == 'ngram_with':
-        return u'Word - ' + word + u', error grams - ' + unicode(u', '.join(NGramm.first_step(word, 3, True)[1].values())) + u'\n'
+        true_grams, error_grams = NGramm.first_step(word, 3, True)
+        main = "True:\n"
+        main += ",".join(true_grams.values())
+        main += "\nError:\n"
+        main += ",".join(error_grams.values())
+        return {
+            'main': main,
+            'word': word,
+        }
 
-def to_file(name):
+def to_file(name, add_to_file=True):
     correct, incorrect = open_and_get_list()
 
     results = []
@@ -154,19 +175,20 @@ def to_file(name):
             d1 = datetime.now()
             r = run_method(name, w)
             for key, v in r.iteritems():
-                if isinstance(v, list) and (isinstance(v[0], str) or isinstance(v[0], unicode)):
+                if v and isinstance(v, list) and (isinstance(v[0], str) or isinstance(v[0], unicode)):
                     r[key] = ",".join(v)
                 elif isinstance(v, Main):
                     r[key] = ",".join(v.name)
+            r['word'] = w
             results.append(r)
             w = unicode(w.name) if isinstance(w, Main) else unicode(w)
             file_res += u'Word - ' + w + u', time - ' + unicode(datetime.now() - d1) + u'\n'
             if isinstance(r, dict):
                 for k, v in r.iteritems():
                     value = False
-                    if isinstance(v, list) and (isinstance(v[0], str) or isinstance(v[0], unicode)):
+                    if v and isinstance(v, list) and (isinstance(v[0], str) or isinstance(v[0], unicode)):
                         value = u",".join(v)
-                    elif isinstance(v, str) or isinstance(v, unicode):
+                    elif v and isinstance(v, str) or isinstance(v, unicode):
                         value = unicode(v)
                     if value:
                         file_res += str(k) + ' - ' + value + '\n'
@@ -174,27 +196,27 @@ def to_file(name):
                 file_res += r
 
             file_res += u'\n\n'
-        # except Exception, e:
-        #     file_res += 'Word - ' + str(w) + " Error - " + str(e) + '\n'
-        #     print str(e)
 
-    file_res += "Full - " + str(datetime.now() - date_time_1) + '\n'
+    time_word = datetime.now() - date_time_1
+    file_res += "Full - " + str(time_word) + '\n'
+    print time_word
 
-    file_res += "\n\nCorrect:\n"
-    file_res = "\n".join(correct)
+    if add_to_file:
+        file_res += "\n\nCorrect:\n"
+        file_res = "\n".join(correct)
 
-    if isinstance(results[0], dict):
-        file_res += u"Summa - " + str(sum(map(lambda res: 1 if res.get('main') else 0, results))) + '\n'
-    else:
-        file_res += u"Summa - " + str(0)
+        if isinstance(results[0], dict):
+            file_res += u"Summa - " + str(sum(map(lambda res: 1 if res.get('main') else 0, results))) + '\n'
+        else:
+            file_res += u"Summa - " + str(0)
 
-    result_dir = os.path.join(os.getcwd(), 'results')
+        result_dir = os.path.join(os.getcwd(), 'results')
 
-    if not os.path.exists(result_dir):
-        os.makedirs(result_dir)
+        if not os.path.exists(result_dir):
+            os.makedirs(result_dir)
 
-    with open(os.path.join(os.getcwd(), 'results', 'result_1' + '.txt'), 'w') as f:
-        f.write(file_res.encode('utf-8'))
+        with open(os.path.join(os.getcwd(), 'results', 'result_1' + '.txt'), 'w') as f:
+            f.write(file_res.encode('utf-8'))
     return results
 
 def test_script(request):
@@ -207,24 +229,48 @@ def test_script(request):
 
 def test_levenshteyn(request):
     results = to_file('leven')
-    return render(request, 'result.html',
+    return render(request, 'result_test.html',
                   {
                       'res': True,
-                      'result_str': "\n".join(results),
+                      'results': results
                   })
 
 def test_ngram_without(request):
     results = to_file('ngram_without')
-    return render(request, 'result.html',
+    return render(request, 'result_test.html',
                   {
                       'res': True,
-                      'result_str': "\n".join(results),
+                      'results': results
                   })
 
 def test_ngram_with(request):
     results = to_file('ngram_with')
-    return render(request, 'result.html',
+    return render(request, 'result_test.html',
                   {
                       'res': True,
-                      'result_str': "\n".join(results),
+                      'results': results
                   })
+
+def test_all(request):
+    counts_my = {}
+    counts_lev = {}
+    counts_n = {}
+    counts_nn = {}
+
+    vars = ['leven', 'my', 'ngram_without', 'ngram_with']
+    count_meth = {
+        'leven': counts_lev,
+        'my': counts_my,
+        'ngram_without': counts_n,
+        'ngram_with': counts_nn,
+    }
+
+    for i in range(10):
+        for name in vars:
+            results = to_file(name)
+            not_empty = filter(lambda x: x['main'], results)
+            _count_variants = sum(map(lambda x: len(x['main'].split(',')), not_empty))
+            count = len(not_empty)
+            count_meth[name][i] = count
+
+    return render(request, 'resultt.html', {'res': 'Calcalated'})

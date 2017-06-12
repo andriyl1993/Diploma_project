@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from views import index, check_word, check_text, n_gram, leven, test_script, test_levenshteyn,\
-    test_ngram_with, test_ngram_without
+    test_ngram_with, test_ngram_without, test_all
 
 urlpatterns = [
     url(r'^$', index, name="index"),
@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'^test-levensh/', test_levenshteyn, name="test_levensh"),
     url(r'^test-ngram-without/', test_ngram_without, name="test_ngram_without"),
     url(r'^test-ngram-with/', test_ngram_with, name="test_ngram_with"),
-
+    url(r'^test-all/', test_all, name="test_all"),
 ]

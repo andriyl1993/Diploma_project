@@ -3,15 +3,14 @@
     <title>Result</title>
 {% endblock %}
 {% block main %}
-    {{ res }}
     <div>
         <label for="results">Results</label>
-        <table>
+        <table class="table table-bordered table-hover">
             <thead>
-                <th>Word</th>
-                <th>Prefixed</th>
-                <th>Main</th>
-                <th>End</th>
+                <th>Слово</th>
+                <th>Префікси (з нульовим)</th>
+                <th>Головна частина</th>
+                <th>Закінчення (з нульовим)</th>
             </thead>
             <tbody>
                 {% for w in results %}
